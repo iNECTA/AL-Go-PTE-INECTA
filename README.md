@@ -1,4 +1,4 @@
-# AL-Go-PTE-INECTA Template
+# AL-Go-PTE iNECTA Template
 
 
 ## Sources:

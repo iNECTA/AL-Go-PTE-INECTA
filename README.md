@@ -1,4 +1,5 @@
-# AL-Go-PTE-INECTA Template
+# AL-Go-PTE iNECTA Template
+
 
 ## Sources:
 
@@ -13,6 +14,9 @@ https://github.com/microsoft/AL-Go-AppSource
 
 ### PTE Template Code
 https://github.com/microsoft/AL-Go-PTE
+
+### BcContainerHelper PowerShell Module
+https://github.com/microsoft/navcontainerhelper
 
 
 ## Documentation:

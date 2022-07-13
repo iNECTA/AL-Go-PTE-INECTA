@@ -88,7 +88,7 @@ jobs:
           templateUrl: ${{ env.TemplateUrl }}
 
   Build:
-    needs: [ Initialization, BranchCutOff ]
+    needs: [ Initialization, CheckForUpdates, BranchCutOff ]
     runs-on: ${{ fromJson(needs.Initialization.outputs.githubRunner) }}
     strategy:
       matrix:
@@ -210,7 +210,7 @@ jobs:
 
   UploadBlobs:
     runs-on: [ windows-latest ]
-    needs: [ Initialization, BranchCutOff, Build ]
+    needs: [ Initialization, CheckForUpdates, BranchCutOff, Build ]
     outputs:
       telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
       settings: ${{ steps.ReadSettings.outputs.SettingsJson }}
@@ -240,7 +240,7 @@ jobs:
   PostProcess:
     if: always()
     runs-on: [ windows-latest ]
-    needs: [ Initialization, BranchCutOff, Build, UploadBlobs ]
+    needs: [ Initialization, CheckForUpdates, BranchCutOff, Build, UploadBlobs ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2

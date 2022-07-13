@@ -53,13 +53,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Initialize the workflow
+      - name: Create CutOff Branch
         id: init
         uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.5
         with:
           eventId: "DO0091"
 
-      - name: Read settings
+      - name: Update Customer Repository
         id: ReadSettings
         uses: microsoft/AL-Go-Actions/ReadSettings@v1.5
         with:
@@ -221,7 +221,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Initialize the workflow
+      - name: Upload Artifacts to Azure Blob Storage
         id: init
         uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.5
         with:

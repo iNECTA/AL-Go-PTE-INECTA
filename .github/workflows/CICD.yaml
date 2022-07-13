@@ -41,6 +41,7 @@ jobs:
 
   BranchCutOff:
     runs-on: [ windows-latest ]
+    needs: [ Initialization ]
     outputs:
       telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
       settings: ${{ steps.ReadSettings.outputs.SettingsJson }}
@@ -209,6 +210,7 @@ jobs:
 
   UploadBlobs:
     runs-on: [ windows-latest ]
+    needs: [ Initialization, BranchCutOff, Build ]
     outputs:
       telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
       settings: ${{ steps.ReadSettings.outputs.SettingsJson }}

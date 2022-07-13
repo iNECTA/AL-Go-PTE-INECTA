@@ -41,7 +41,7 @@ jobs:
 
   BranchCutOff:
     runs-on: [ windows-latest ]
-    needs: [ Initialization ]
+    needs: [ Initialization, CheckForUpdates ]
     outputs:
       telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
       settings: ${{ steps.ReadSettings.outputs.SettingsJson }}

@@ -26,3 +26,6 @@ https://github.com/microsoft/AL-Go/tree/main/Scenarios
 
 ### Expert Level Settings
 https://github.com/microsoft/AL-Go/blob/main/Scenarios/settings.md
+
+### Freddy's Blog
+https://freddysblog.com/

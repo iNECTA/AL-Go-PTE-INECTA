@@ -88,11 +88,11 @@ function Get-dependencies {
 }
 
 function CreateGitHubRequestHeaders([string]$username, [string]$token) {
+    Write-Host -Object "Generating GitHub API request headers..."
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $username, $token)))
     $headers = @{
         Authorization = "Basic $base64AuthInfo"
-        Accept        = "application/vnd.github.baptiste-preview+json"
     }
     return $headers
 }

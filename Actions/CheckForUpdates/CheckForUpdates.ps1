@@ -209,6 +209,7 @@ try {
                 invoke-git config --global hub.protocol https
 
                 # Clone URL
+                $url
                 invoke-git clone $url
 
                 Set-Location -Path *

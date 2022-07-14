@@ -114,6 +114,7 @@ try {
 
     $archiveUrl = $templateInfo.archive_url.Replace('{archive_format}', 'zipball').replace('{/ref}', "/$templateBranch")
     $tempName = Join-Path $env:TEMP ([Guid]::NewGuid().ToString())
+    Write-Host "Archive url $archiveUrl"
     Invoke-WebRequest -UseBasicParsing -Headers $githubheaders -Uri $archiveUrl -OutFile "$tempName.zip"
     Expand-7zipArchive -Path "$tempName.zip" -DestinationPath $tempName
     Remove-Item -Path "$tempName.zip"

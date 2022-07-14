@@ -82,7 +82,7 @@ jobs:
           get: TemplateUrl
 
       - name: Check for updates to AL-Go system files
-        uses: ./Actions/CheckForUpdates/CheckForUpdates.ps1
+        uses: microsoft/AL-Go-Actions/ReadSettings@v1.5
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           templateUrl: ${{ env.TemplateUrl }}

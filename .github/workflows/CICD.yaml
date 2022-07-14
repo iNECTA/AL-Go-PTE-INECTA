@@ -54,12 +54,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Clone AL-Go-PTE-INECTA
-        shell: PowerShell
-        run: |
-          New-Item 
-          git clone https://
-
       - name: Create CutOff Branch
         id: init
         uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.5
@@ -88,7 +82,7 @@ jobs:
           get: TemplateUrl
 
       - name: Check for updates to AL-Go system files
-        uses: .\Actions\CheckForUpdates\CheckForUpdates.ps1
+        uses: ./Actions/CheckForUpdates/CheckForUpdates.ps1
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           templateUrl: ${{ env.TemplateUrl }}

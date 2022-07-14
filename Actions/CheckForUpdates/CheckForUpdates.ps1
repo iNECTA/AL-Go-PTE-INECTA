@@ -100,12 +100,15 @@ try {
     $templateUrl = $templateInfo.html_url
     Write-Host "Using template from $templateUrl@$templateBranch"
 
-    $headers = @{             
+    $headers = @{
         "Accept" = "application/vnd.github.baptiste-preview+json"
     }
+
+    $githubheaders = CreateGitHubRequestHeaders -username $actor -token $token
+
     $archiveUrl = $templateInfo.archive_url.Replace('{archive_format}', 'zipball').replace('{/ref}', "/$templateBranch")
     $tempName = Join-Path $env:TEMP ([Guid]::NewGuid().ToString())
-    Invoke-WebRequest -UseBasicParsing -Headers $headers -Uri $archiveUrl -OutFile "$tempName.zip"
+    Invoke-WebRequest -UseBasicParsing -Headers $githubheaders -Uri $archiveUrl -OutFile "$tempName.zip"
     Expand-7zipArchive -Path "$tempName.zip" -DestinationPath $tempName
     Remove-Item -Path "$tempName.zip"
     

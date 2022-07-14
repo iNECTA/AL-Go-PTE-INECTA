@@ -49,7 +49,7 @@ function Test-Json {
         }
         else {
             Test-Property -settingsFile $settingsFile -json $json -key 'templateUrl' -maynot
-            'nextMajorSchedule','nextMinorSchedule','currentSchedule','githubRunner','runs-on' | ForEach-Object {
+            'nextMajorSchedule', 'nextMinorSchedule', 'currentSchedule', 'githubRunner', 'runs-on' | ForEach-Object {
                 Test-Property -settingsFile $settingsFile -json $json -key $_ -shouldnot
             }
         }
@@ -76,11 +76,11 @@ function Test-ALGoRepository {
 }
 
 function Write-Big {
-Param(
-    [string] $str
-)
-$chars = @{
-"0" = @'
+    Param(
+        [string] $str
+    )
+    $chars = @{
+        "0" = @'
    ___  
   / _ \ 
  | | | |
@@ -88,7 +88,7 @@ $chars = @{
  | |_| |
   \___/ 
 '@.Split("`n")
-"1" = @'
+        "1" = @'
   __
  /_ |
   | |
@@ -96,7 +96,7 @@ $chars = @{
   | |
   |_|
 '@.Split("`n")
-"2" = @'
+        "2" = @'
   ___  
  |__ \ 
     ) |
@@ -104,7 +104,7 @@ $chars = @{
   / /_ 
  |____|
 '@.Split("`n")
-"3" = @'
+        "3" = @'
   ____  
  |___ \ 
    __) |
@@ -112,7 +112,7 @@ $chars = @{
   ___) |
  |____/ 
 '@.Split("`n")
-"4" = @'
+        "4" = @'
   _  _   
  | || |  
  | || |_ 
@@ -120,7 +120,7 @@ $chars = @{
     | |  
     |_|  
 '@.Split("`n")
-"5" = @'
+        "5" = @'
   _____ 
  | ____|
  | |__  
@@ -128,7 +128,7 @@ $chars = @{
   ___) |
  |____/ 
 '@.Split("`n")
-"6" = @'
+        "6" = @'
     __  
    / /  
   / /_  
@@ -136,7 +136,7 @@ $chars = @{
  | (_) |
   \___/ 
 '@.Split("`n")
-"7" = @'
+        "7" = @'
   ______ 
  |____  |
      / / 
@@ -144,7 +144,7 @@ $chars = @{
    / /   
   /_/    
 '@.Split("`n")
-"8" = @'
+        "8" = @'
    ___  
   / _ \ 
  | (_) |
@@ -152,7 +152,7 @@ $chars = @{
  | (_) |
   \___/ 
 '@.Split("`n")
-"9" = @'
+        "9" = @'
    ___  
   / _ \ 
  | (_) |
@@ -160,7 +160,7 @@ $chars = @{
     / / 
    /_/  
 '@.Split("`n")
-"." = @'
+        "." = @'
     
     
     
@@ -168,7 +168,7 @@ $chars = @{
   _ 
  (_)
 '@.Split("`n")
-"v" = @'
+        "v" = @'
         
         
  __   __
@@ -176,7 +176,7 @@ $chars = @{
   \ V / 
    \_(_)
 '@.Split("`n")
-"p" = @'
+        "p" = @'
   _____                _               
  |  __ \              (_)              
  | |__) | __ _____   ___  _____      __
@@ -184,7 +184,7 @@ $chars = @{
  | |   | | |  __/\ V /| |  __/\ V  V / 
  |_|   |_|  \___| \_/ |_|\___| \_/\_/  
 '@.Split("`n")
-"d" = @'
+        "d" = @'
   _____             
  |  __ \            
  | |  | | _____   __
@@ -192,7 +192,7 @@ $chars = @{
  | |__| |  __/\ V / 
  |_____/ \___| \_(_)
 '@.Split("`n")
-"a" = @'
+        "a" = @'
            _           _____          __              _____ _ _   _    _       _       
      /\   | |         / ____|        / _|            / ____(_) | | |  | |     | |      
     /  \  | |  ______| |  __  ___   | |_ ___  _ __  | |  __ _| |_| |__| |_   _| |__    
@@ -200,17 +200,17 @@ $chars = @{
   / ____ \| |____    | |__| | (_) | | || (_) | |    | |__| | | |_| |  | | |_| | |_) |  
  /_/    \_\______|    \_____|\___/  |_| \___/|_|     \_____|_|\__|_|  |_|\__,_|_.__/   
 '@.Split("`n")
-}
-
-
-0..5 | ForEach-Object {
-    $line = $_
-    $str.ToCharArray() | ForEach-Object {
-        $ch = $chars."$_"
-        if ($ch) {
-            Write-Host -noNewline $ch[$line]
-        }
     }
-    Write-Host
-}
+
+
+    0..5 | ForEach-Object {
+        $line = $_
+        $str.ToCharArray() | ForEach-Object {
+            $ch = $chars."$_"
+            if ($ch) {
+                Write-Host -noNewline $ch[$line]
+            }
+        }
+        Write-Host
+    }
 }

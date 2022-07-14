@@ -41,7 +41,7 @@ function CreateScope {
         $telemetryScope = RegisterTelemetryScope $parentTelemetryScopeJson
     }
 
-    $telemetryScope = InitTelemetryScope -name $signalName -eventId $eventId  -parameterValues @()  -includeParameters @()
+    $telemetryScope = InitTelemetryScope -name $signalName -eventId $eventId -parameterValues @() -includeParameters @()
 
     return $telemetryScope
 }

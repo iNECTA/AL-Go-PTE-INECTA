@@ -216,8 +216,8 @@ function DownloadAndImportBcContainerHelper {
                 $repoSettings = Get-Content $repoSettingsPath -Encoding UTF8 | ConvertFrom-Json | ConvertTo-HashTable
                 $ap = "$ENV:GITHUB_ACTION_PATH".Split('\')
                 if ($ap -and $ap.Count -gt 4) {
-                    $branch = $ap[$ap.Count-2]
-                    $owner = $ap[$ap.Count-4]
+                    $branch = $ap[$ap.Count - 2]
+                    $owner = $ap[$ap.Count - 4]
                     if ($owner -eq "freddydk") {
                         $bcContainerHelperVersion = "dev"
                     }
@@ -361,69 +361,69 @@ function ReadSettings {
     
     # Read Settings file
     $settings = [ordered]@{
-        "type"                                   = "PTE"
-        "country"                                = "us"
-        "artifact"                               = ""
-        "companyName"                            = ""
-        "repoVersion"                            = "1.0"
-        "repoName"                               = $repoName
-        "versioningStrategy"                     = 0
-        "runNumberOffset"                        = 0
-        "appBuild"                               = 0
-        "appRevision"                            = 0
-        "keyVaultName"                           = ""
-        "licenseFileUrlSecretName"               = "LicenseFileUrl"
-        "insiderSasTokenSecretName"              = "InsiderSasToken"
-        "ghTokenWorkflowSecretName"              = "GhTokenWorkflow"
-        "adminCenterApiCredentialsSecretName"    = "AdminCenterApiCredentials"
+        "type"                                          = "PTE"
+        "country"                                       = "us"
+        "artifact"                                      = ""
+        "companyName"                                   = ""
+        "repoVersion"                                   = "1.0"
+        "repoName"                                      = $repoName
+        "versioningStrategy"                            = 0
+        "runNumberOffset"                               = 0
+        "appBuild"                                      = 0
+        "appRevision"                                   = 0
+        "keyVaultName"                                  = ""
+        "licenseFileUrlSecretName"                      = "LicenseFileUrl"
+        "insiderSasTokenSecretName"                     = "InsiderSasToken"
+        "ghTokenWorkflowSecretName"                     = "GhTokenWorkflow"
+        "adminCenterApiCredentialsSecretName"           = "AdminCenterApiCredentials"
         "applicationInsightsConnectionStringSecretName" = "ApplicationInsightsConnectionString"
-        "keyVaultCertificateUrlSecretName"       = ""
-        "keyVaultCertificatePasswordSecretName"  = ""
-        "keyVaultClientIdSecretName"             = ""
-        "codeSignCertificateUrlSecretName"       = "CodeSignCertificateUrl"
-        "codeSignCertificatePasswordSecretName"  = "CodeSignCertificatePassword"
-        "storageContextSecretName"               = "StorageContext"
-        "additionalCountries"                    = @()
-        "appDependencies"                        = @()
-        "appFolders"                             = @()
-        "testDependencies"                       = @()
-        "testFolders"                            = @()
-        "bcptTestFolders"                        = @()
-        "installApps"                            = @()
-        "installTestApps"                        = @()
-        "installOnlyReferencedApps"              = $true
-        "generateDependencyArtifact"             = $false
-        "skipUpgrade"                            = $false
-        "applicationDependency"                  = "18.0.0.0"
-        "updateDependencies"                     = $false
-        "installTestRunner"                      = $false
-        "installTestFramework"                   = $false
-        "installTestLibraries"                   = $false
-        "installPerformanceToolkit"              = $false
-        "enableCodeCop"                          = $false
-        "enableUICop"                            = $false
-        "customCodeCops"                         = @()
-        "failOn"                                 = "error"
-        "rulesetFile"                            = ""
-        "doNotBuildTests"                        = $false
-        "doNotRunTests"                          = $false
-        "doNotRunBcptTests"                      = $false
-        "doNotPublishApps"                       = $false
-        "doNotSignApps"                          = $false
-        "appSourceCopMandatoryAffixes"           = @()
-        "obsoleteTagMinAllowedMajorMinor"        = ""
-        "memoryLimit"                            = ""
-        "templateUrl"                            = ""
-        "templateBranch"                         = ""
-        "appDependencyProbingPaths"              = @()
-        "githubRunner"                           = "windows-latest"
-        "cacheImageName"                         = "my"
-        "cacheKeepDays"                          = 3
-        "alwaysBuildAllProjects"                 = $false
-        "MicrosoftTelemetryConnectionString"     = $MicrosoftTelemetryConnectionString
-        "PartnerTelemetryConnectionString"       = ""
-        "SendExtendedTelemetryToMicrosoft"       = $false
-        "Environments"                           = @()
+        "keyVaultCertificateUrlSecretName"              = ""
+        "keyVaultCertificatePasswordSecretName"         = ""
+        "keyVaultClientIdSecretName"                    = ""
+        "codeSignCertificateUrlSecretName"              = "CodeSignCertificateUrl"
+        "codeSignCertificatePasswordSecretName"         = "CodeSignCertificatePassword"
+        "storageContextSecretName"                      = "StorageContext"
+        "additionalCountries"                           = @()
+        "appDependencies"                               = @()
+        "appFolders"                                    = @()
+        "testDependencies"                              = @()
+        "testFolders"                                   = @()
+        "bcptTestFolders"                               = @()
+        "installApps"                                   = @()
+        "installTestApps"                               = @()
+        "installOnlyReferencedApps"                     = $true
+        "generateDependencyArtifact"                    = $false
+        "skipUpgrade"                                   = $false
+        "applicationDependency"                         = "18.0.0.0"
+        "updateDependencies"                            = $false
+        "installTestRunner"                             = $false
+        "installTestFramework"                          = $false
+        "installTestLibraries"                          = $false
+        "installPerformanceToolkit"                     = $false
+        "enableCodeCop"                                 = $false
+        "enableUICop"                                   = $false
+        "customCodeCops"                                = @()
+        "failOn"                                        = "error"
+        "rulesetFile"                                   = ""
+        "doNotBuildTests"                               = $false
+        "doNotRunTests"                                 = $false
+        "doNotRunBcptTests"                             = $false
+        "doNotPublishApps"                              = $false
+        "doNotSignApps"                                 = $false
+        "appSourceCopMandatoryAffixes"                  = @()
+        "obsoleteTagMinAllowedMajorMinor"               = ""
+        "memoryLimit"                                   = ""
+        "templateUrl"                                   = ""
+        "templateBranch"                                = ""
+        "appDependencyProbingPaths"                     = @()
+        "githubRunner"                                  = "windows-latest"
+        "cacheImageName"                                = "my"
+        "cacheKeepDays"                                 = 3
+        "alwaysBuildAllProjects"                        = $false
+        "MicrosoftTelemetryConnectionString"            = $MicrosoftTelemetryConnectionString
+        "PartnerTelemetryConnectionString"              = ""
+        "SendExtendedTelemetryToMicrosoft"              = $false
+        "Environments"                                  = @()
     }
 
     $gitHubFolder = ".github"
@@ -514,7 +514,7 @@ function AnalyzeRepo {
         }
     }
 
-    if (-not (@($settings.appFolders)+@($settings.testFolders)+@($settings.bcptTestFolders))) {
+    if (-not (@($settings.appFolders) + @($settings.testFolders) + @($settings.bcptTestFolders))) {
         Get-ChildItem -Path $baseFolder -Directory | Where-Object { Test-Path -Path (Join-Path $_.FullName "app.json") } | ForEach-Object {
             $folder = $_
             $appJson = Get-Content (Join-Path $folder.FullName "app.json") -Encoding UTF8 | ConvertFrom-Json
@@ -704,7 +704,7 @@ function AnalyzeRepo {
             if ($illegalCountries) {
                 throw "additionalCountries contains one or more invalid country codes ($($illegalCountries -join ",")) in $ALGoSettingsFile."
             }
-            $artifactUrl = $artifactUrl.Replace($artifactUrl.Split('/')[4],$atArtifactUrl.Split('/')[4])
+            $artifactUrl = $artifactUrl.Replace($artifactUrl.Split('/')[4], $atArtifactUrl.Split('/')[4])
         }
         else {
             Write-Host "Downloading artifacts from $($artifactUrl.Split('?')[0])"
@@ -855,21 +855,21 @@ function CommitFromNewFolder {
 
 function Select-Value {
     Param(
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory = $false)]
         [string] $title,
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory = $false)]
         [string] $description,
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         $options,
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory = $false)]
         [string] $default = "",
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [string] $question
     )
 
     if ($title) {
         Write-Host -ForegroundColor Yellow $title
-        Write-Host -ForegroundColor Yellow ("-"*$title.Length)
+        Write-Host -ForegroundColor Yellow ("-" * $title.Length)
     }
     if ($description) {
         Write-Host $description
@@ -909,11 +909,11 @@ function Select-Value {
             }
         }
         else {
-            if (($selection.Length -ne 1) -or (([int][char]($selection)) -lt 97 -or ([int][char]($selection)) -ge (97+$offset))) {
+            if (($selection.Length -ne 1) -or (([int][char]($selection)) -lt 97 -or ([int][char]($selection)) -ge (97 + $offset))) {
                 Write-Host -ForegroundColor Red "Illegal answer. " -NoNewline
             }
             else {
-                $answer = ([int][char]($selection))-97
+                $answer = ([int][char]($selection)) - 97
             }
         }
         if ($answer -eq -1) {
@@ -933,15 +933,15 @@ function Select-Value {
 
 function Enter-Value {
     Param(
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory = $false)]
         [string] $title,
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory = $false)]
         [string] $description,
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory = $false)]
         $options,
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory = $false)]
         [string] $default = "",
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [string] $question,
         [switch] $doNotConvertToLower,
         [switch] $previousStep
@@ -949,7 +949,7 @@ function Enter-Value {
 
     if ($title) {
         Write-Host -ForegroundColor Yellow $title
-        Write-Host -ForegroundColor Yellow ("-"*$title.Length)
+        Write-Host -ForegroundColor Yellow ("-" * $title.Length)
     }
     if ($description) {
         Write-Host $description
@@ -1011,7 +1011,7 @@ function OptionallyConvertFromBase64 {
             ""
         }
         else {
-            [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($value.Substring(2, $value.Length-4)))
+            [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($value.Substring(2, $value.Length - 4)))
         }
     }
 }
@@ -1022,31 +1022,31 @@ function GetContainerName([string] $project) {
 
 function CreateDevEnv {
     Param(
-        [Parameter(Mandatory=$true)]
-        [ValidateSet('local','cloud')]
+        [Parameter(Mandatory = $true)]
+        [ValidateSet('local', 'cloud')]
         [string] $kind,
-        [ValidateSet('local','GitHubActions')]
+        [ValidateSet('local', 'GitHubActions')]
         [string] $caller = 'local',
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [string] $baseFolder,
         [string] $userName = $env:Username,
         [string] $bcContainerHelperPath = "",
 
-        [Parameter(ParameterSetName='cloud')]
+        [Parameter(ParameterSetName = 'cloud')]
         [Hashtable] $bcAuthContext = $null,
-        [Parameter(ParameterSetName='cloud')]
+        [Parameter(ParameterSetName = 'cloud')]
         [Hashtable] $adminCenterApiCredentials = @{},
-        [Parameter(Mandatory=$true, ParameterSetName='cloud')]
+        [Parameter(Mandatory = $true, ParameterSetName = 'cloud')]
         [string] $environmentName,
-        [Parameter(ParameterSetName='cloud')]
+        [Parameter(ParameterSetName = 'cloud')]
         [switch] $reuseExistingEnvironment,
 
-        [Parameter(Mandatory=$true, ParameterSetName='local')]
-        [ValidateSet('Windows','UserPassword')]
+        [Parameter(Mandatory = $true, ParameterSetName = 'local')]
+        [ValidateSet('Windows', 'UserPassword')]
         [string] $auth,
-        [Parameter(Mandatory=$true, ParameterSetName='local')]
+        [Parameter(Mandatory = $true, ParameterSetName = 'local')]
         [pscredential] $credential,
-        [Parameter(ParameterSetName='local')]
+        [Parameter(ParameterSetName = 'local')]
         [string] $containerName = "",
         [string] $insiderSasToken = "",
         [string] $LicenseFileUrl = ""
@@ -1071,7 +1071,7 @@ function CreateDevEnv {
 
         $workflowName = "$($kind)DevEnv"
         $params = @{
-            "baseFolder" = $baseFolder
+            "baseFolder"   = $baseFolder
             "workflowName" = $workflowName
         }
         if ($caller -eq "local") { $params += @{ "userName" = $userName } }
@@ -1120,9 +1120,9 @@ function CreateDevEnv {
                                 exit
                             }
                             $runAlPipelineParams += @{ 
-                                "KeyVaultCertPfxFile" = $KeyVaultCertificateUrlSecret.SecretValue | Get-PlainText
+                                "KeyVaultCertPfxFile"     = $KeyVaultCertificateUrlSecret.SecretValue | Get-PlainText
                                 "keyVaultCertPfxPassword" = $keyVaultCertificatePasswordSecret.SecretValue
-                                "keyVaultClientId" = $keyVaultClientIdSecret.SecretValue | Get-PlainText
+                                "keyVaultClientId"        = $keyVaultClientIdSecret.SecretValue | Get-PlainText
                             }
                         }
                     }
@@ -1130,7 +1130,7 @@ function CreateDevEnv {
                 elseif ($kind -eq "cloud") {
                     $adminCenterApiCredentialsSecret = Get-AzKeyVaultSecret -VaultName $settings.keyVaultName -Name $settings.AdminCenterApiCredentialsSecretName
                     if ($adminCenterApiCredentialsSecret) { $AdminCenterApiCredentials = $adminCenterApiCredentialsSecret.SecretValue | Get-PlainText | ConvertFrom-Json | ConvertTo-HashTable }
-                    $legalParameters = @("RefreshToken","CliendId","ClientSecret","deviceCode","tenantId")
+                    $legalParameters = @("RefreshToken", "CliendId", "ClientSecret", "deviceCode", "tenantId")
                     $adminCenterApiCredentials.Keys | ForEach-Object {
                         if (-not ($legalParameters -contains $_)) {
                             throw "$_ is an illegal property in adminCenterApiCredentials setting"
@@ -1144,7 +1144,7 @@ function CreateDevEnv {
         }
 
         $params = @{
-            "settings" = $settings
+            "settings"   = $settings
             "baseFolder" = $baseFolder
         }
         if ($kind -eq "local") {
@@ -1176,8 +1176,8 @@ function CreateDevEnv {
             if ($kind -eq "cloud") { throw "Versioningstrategy -1 cannot be used on cloud" }
             $artifactVersion = [Version]$repo.artifact.Split('/')[4]
             $runAlPipelineParams += @{
-                "appVersion" = "$($artifactVersion.Major).$($artifactVersion.Minor)"
-                "appBuild" = "$($artifactVersion.Build)"
+                "appVersion"  = "$($artifactVersion.Major).$($artifactVersion.Minor)"
+                "appBuild"    = "$($artifactVersion.Build)"
                 "appRevision" = "$($artifactVersion.Revision)"
             }
         }
@@ -1216,14 +1216,14 @@ function CreateDevEnv {
 
         if ($kind -eq "local") {
             $runAlPipelineParams += @{
-                "artifact" = $repo.artifact.replace('{INSIDERSASTOKEN}',$insiderSasToken)
-                "auth" = $auth
+                "artifact"   = $repo.artifact.replace('{INSIDERSASTOKEN}', $insiderSasToken)
+                "auth"       = $auth
                 "credential" = $credential
             }
             if ($containerName) {
                 $runAlPipelineParams += @{
                     "updateLaunchJson" = "Local Sandbox ($containerName)"
-                    "containerName" = $containerName
+                    "containerName"    = $containerName
                 }
             }
             else {
@@ -1238,7 +1238,7 @@ function CreateDevEnv {
             }
             
             if ($bcAuthContext) {
-                 $authContext = Renew-BcAuthContext $bcAuthContext
+                $authContext = Renew-BcAuthContext $bcAuthContext
             }
             else {
                 $authContext = New-BcAuthContext @AdminCenterApiCredentials -includeDeviceLogin:($caller -eq "local")
@@ -1281,10 +1281,10 @@ function CreateDevEnv {
             }
 
             $runAlPipelineParams += @{
-                "artifact" = $artifact
-                "bcAuthContext" = $authContext
-                "environment" = $environmentName
-                "containerName" = "bcServerFilesOnly"
+                "artifact"         = $artifact
+                "bcAuthContext"    = $authContext
+                "environment"      = $environmentName
+                "containerName"    = "bcServerFilesOnly"
                 "updateLaunchJson" = "Cloud Sandbox ($environmentName)"
             }
         }
@@ -1372,8 +1372,8 @@ function CheckAndCreateProjectFolder {
                 Set-Location $project
                 OutputWarning "Project folder doesn't exist, creating a new project folder and a default settings file with country us. Please modify if needed."
                 [ordered]@{
-                    "country" = "us"
-                    "appFolders" = @()
+                    "country"     = "us"
+                    "appFolders"  = @()
                     "testFolders" = @()
                 } | ConvertTo-Json | Set-Content $ALGoSettingsFile -Encoding UTF8
             }

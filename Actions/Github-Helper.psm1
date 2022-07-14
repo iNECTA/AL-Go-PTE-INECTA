@@ -94,7 +94,7 @@ function SemVerObjToSemVerStr {
 
     try {
         $str = "$($semVerObj.Prefix)$($semVerObj.Major).$($semVerObj.Minor).$($semVerObj.Patch)"
-        for ($i=0; $i -lt 5; $i++) {
+        for ($i = 0; $i -lt 5; $i++) {
             $seg = $semVerObj."Addt$i"
             if ($seg -eq 'zzz') { break }
             if ($i -eq 0) { $str += "-$($seg)" } else { $str += ".$($seg)" }
@@ -130,11 +130,11 @@ function SemVerStrToSemVerObj {
         }
         $idx = $verStr.IndexOf('-')
         if ($idx -gt 0) {
-            $segments = $verStr.SubString($idx+1).Split('.')
+            $segments = $verStr.SubString($idx + 1).Split('.')
             if ($segments.Count -ge 5) {
                 throw "max. 5 segments"
             }
-            0..($segments.Count-1) | ForEach-Object {
+            0..($segments.Count - 1) | ForEach-Object {
                 $result = 0
                 if ([int]::TryParse($segments[$_], [ref] $result)) {
                     $obj."Addt$_" = [int]$result
@@ -172,11 +172,11 @@ function GetReleases {
         try {
             $sortedReleases = $releases.tag_name | 
                 ForEach-Object { SemVerStrToSemVerObj -semVerStr $_ } | 
-                Sort-Object -Property Major,Minor,Patch,Addt0,Addt1,Addt2,Addt3,Addt4 -Descending | 
-                ForEach-Object { SemVerObjToSemVerStr -semVerObj $_ } | ForEach-Object {
-                    $tag_name = $_
-                    $releases | Where-Object { $_.tag_name -eq $tag_name }
-                }
+                    Sort-Object -Property Major, Minor, Patch, Addt0, Addt1, Addt2, Addt3, Addt4 -Descending | 
+                        ForEach-Object { SemVerObjToSemVerStr -semVerObj $_ } | ForEach-Object {
+                            $tag_name = $_
+                            $releases | Where-Object { $_.tag_name -eq $tag_name }
+                        }
             $sortedReleases
         }
         catch {

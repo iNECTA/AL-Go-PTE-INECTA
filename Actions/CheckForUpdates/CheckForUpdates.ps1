@@ -76,7 +76,7 @@ try {
 
     if ($templateUrl -ne "") {
         try {
-            $templateUrl = $templateUrl -replace "https://www.github.com/","$ENV:GITHUB_API_URL/repos/" -replace "https://github.com/","$ENV:GITHUB_API_URL/repos/"
+            $templateUrl = $templateUrl -replace "https://www.github.com/", "$ENV:GITHUB_API_URL/repos/" -replace "https://github.com/", "$ENV:GITHUB_API_URL/repos/"
             Write-Host "Api url $templateUrl"
             $templateInfo = Invoke-WebRequest -UseBasicParsing -Headers $headers -Uri $templateUrl | ConvertFrom-Json
         }
@@ -101,7 +101,7 @@ try {
     $headers = @{             
         "Accept" = "application/vnd.github.baptiste-preview+json"
     }
-    $archiveUrl = $templateInfo.archive_url.Replace('{archive_format}','zipball').replace('{/ref}',"/$templateBranch")
+    $archiveUrl = $templateInfo.archive_url.Replace('{archive_format}', 'zipball').replace('{/ref}', "/$templateBranch")
     $tempName = Join-Path $env:TEMP ([Guid]::NewGuid().ToString())
     Invoke-WebRequest -UseBasicParsing -Headers $headers -Uri $archiveUrl -OutFile "$tempName.zip"
     Expand-7zipArchive -Path "$tempName.zip" -DestinationPath $tempName
@@ -212,7 +212,7 @@ try {
                 invoke-git clone $url
 
                 Set-Location -Path *
-            
+
                 if (!$directcommit) {
                     $branch = [System.IO.Path]::GetRandomFileName()
                     invoke-git checkout -b $branch

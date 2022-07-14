@@ -124,6 +124,7 @@ try {
             $checkfiles += @(@{ "dstPath" = Join-Path $_.Name ".AL-Go"; "srcPath" = ".AL-Go"; "pattern" = "*.ps1"; "type" = "script" })
         }
     }
+    $checkfiles += @(@{ "dstPath" = "Actions"; "srcPath" = "Actions"; "pattern" = "*"; "type" = "action" })
     $updateFiles = @()
 
     $checkfiles | ForEach-Object {
@@ -163,7 +164,6 @@ try {
                     }
                 }
             }
-                
             $dstFile = Join-Path $dstFolder $fileName
             if (Test-Path -Path $dstFile -PathType Leaf) {
                 # file exists, compare

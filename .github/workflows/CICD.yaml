@@ -54,6 +54,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Clone AL-Go-PTE-INECTA
+        shell: PowerShell
+        run: |
+          New-Item 
+          git clone https://
+
       - name: Create CutOff Branch
         id: init
         uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.5

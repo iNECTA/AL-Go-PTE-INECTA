@@ -82,7 +82,7 @@ jobs:
           get: TemplateUrl
 
       - name: Check for updates to AL-Go system files
-        uses: ./Actions/CheckForUpdates/
+        uses: iNECTA/AL-Go-Actions-INECTA/CheckForUpdates@main
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           templateUrl: ${{ env.TemplateUrl }}

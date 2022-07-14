@@ -74,11 +74,13 @@ try {
         "Accept" = "application/vnd.github.baptiste-preview+json"
     }
 
+    $githubheaders = CreateGitHubRequestHeaders -username $actor -token $token
+
     if ($templateUrl -ne "") {
         try {
             $templateUrl = $templateUrl -replace "https://www.github.com/", "$ENV:GITHUB_API_URL/repos/" -replace "https://github.com/", "$ENV:GITHUB_API_URL/repos/"
             Write-Host "Api url $templateUrl"
-            $templateInfo = Invoke-WebRequest -UseBasicParsing -Headers $headers -Uri $templateUrl | ConvertFrom-Json
+            $templateInfo = Invoke-WebRequest -UseBasicParsing -Headers $githubheaders -Uri $templateUrl | ConvertFrom-Json
         }
         catch {
             throw "Could not retrieve the template repository. Error: $($_.Exception.Message)"
@@ -209,7 +211,6 @@ try {
                 invoke-git config --global hub.protocol https
 
                 # Clone URL
-                $url
                 invoke-git clone $url
 
                 Set-Location -Path *

@@ -42,31 +42,15 @@ jobs:
   BranchCutOff:
     runs-on: [ windows-latest ]
     needs: [ Initialization, CheckForUpdates ]
-    outputs:
-      telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
-      settings: ${{ steps.ReadSettings.outputs.SettingsJson }}
-      projects: ${{ steps.ReadSettings.outputs.ProjectsJson }}
-      projectCount: ${{ steps.ReadSettings.outputs.ProjectCount }}
-      environments: ${{ steps.ReadSettings.outputs.EnvironmentsJson }}
-      environmentCount: ${{ steps.ReadSettings.outputs.EnvironmentCount }}
-      githubRunner: ${{ steps.ReadSettings.outputs.GitHubRunnerJson }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Create CutOff Branch
-        id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.5
-        with:
-          eventId: "DO0091"
+      - name: Create cut off branch
+        uses: iNECTA/AL-Go-Actions-INECTA/BranchCutOff@main
 
-      - name: Update Customer Repository
-        id: ReadSettings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.5
-        with:
-          parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
-          getProjects: 'Y'
-          getEnvironments: '*'
+      - name: Update customer repository
+        uses: iNECTA/AL-Go-Actions-INECTA/UpdateCustomerRepository@main
 
   CheckForUpdates:
     runs-on: [ windows-latest ]

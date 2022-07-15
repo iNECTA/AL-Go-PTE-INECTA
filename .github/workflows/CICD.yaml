@@ -41,7 +41,7 @@ jobs:
 
   BranchCutOff:
     runs-on: [ windows-latest ]
-    needs: [ Initialization, CheckForUpdates ]
+    needs: [ Initialization ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -72,7 +72,7 @@ jobs:
           templateUrl: ${{ env.TemplateUrl }}
 
   Build:
-    needs: [ Initialization, CheckForUpdates, BranchCutOff ]
+    needs: [ Initialization, BranchCutOff ]
     runs-on: ${{ fromJson(needs.Initialization.outputs.githubRunner) }}
     strategy:
       matrix:
@@ -194,7 +194,7 @@ jobs:
 
   UploadBlobs:
     runs-on: [ windows-latest ]
-    needs: [ Initialization, CheckForUpdates, BranchCutOff, Build ]
+    needs: [ Initialization, BranchCutOff, Build ]
     outputs:
       telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
       settings: ${{ steps.ReadSettings.outputs.SettingsJson }}
@@ -224,7 +224,7 @@ jobs:
   PostProcess:
     if: always()
     runs-on: [ windows-latest ]
-    needs: [ Initialization, CheckForUpdates, BranchCutOff, Build, UploadBlobs ]
+    needs: [ Initialization, BranchCutOff, Build, UploadBlobs ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2

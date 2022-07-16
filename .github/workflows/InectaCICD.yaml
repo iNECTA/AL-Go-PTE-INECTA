@@ -7,6 +7,6 @@ jobs:
   BranchCutOff:
     uses: ./.github/workflows/BranchCutOff.yaml
 
-  BranchCutOff:
+  Build:
     needs: [ BranchCutOff ]
     uses: ./.github/workflows/CICD.yaml

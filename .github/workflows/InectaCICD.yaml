@@ -27,7 +27,7 @@ jobs:
         shell: PowerShell
         run: |
           $releaseversion = Get-Content -Path "$ENV:GITHUB_WORKSPACE\release.version"
-          echo ::set-output name=RelVerTag::$($sqlConnectionString)
+          echo ::set-output name=RelVerTag::$($releaseversion)
 
   Release:
     needs: [ BranchCutOff, Build, ReleaseVersion ]

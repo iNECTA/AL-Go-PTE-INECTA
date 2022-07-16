@@ -1,6 +1,7 @@
 name: Add existing app or test app
 
 on:
+  workflow_call:
     inputs:
       project:
         description: Project name if the repository is setup for multiple projects

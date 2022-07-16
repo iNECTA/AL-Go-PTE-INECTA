@@ -1,5 +1,8 @@
 name: Test Next Minor
 
+on:
+  workflow_call:
+
 permissions:
   contents: read
 

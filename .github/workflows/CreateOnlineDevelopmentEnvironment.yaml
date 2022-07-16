@@ -1,6 +1,7 @@
 name: Create Online Dev. Environment
 
 on:
+  workflow_call:
     inputs:
       environmentName:
         description: Name of the online environment

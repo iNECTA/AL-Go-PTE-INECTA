@@ -1,0 +1,70 @@
+name: Branch Cut Off
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: PowerShell
+
+jobs:
+  Initialization:
+    runs-on: [ windows-latest ]
+    outputs:
+      telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
+      settings: ${{ steps.ReadSettings.outputs.SettingsJson }}
+      projects: ${{ steps.ReadSettings.outputs.ProjectsJson }}
+      projectCount: ${{ steps.ReadSettings.outputs.ProjectCount }}
+      environments: ${{ steps.ReadSettings.outputs.EnvironmentsJson }}
+      environmentCount: ${{ steps.ReadSettings.outputs.EnvironmentCount }}
+      githubRunner: ${{ steps.ReadSettings.outputs.GitHubRunnerJson }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Initialize the workflow
+        id: init
+        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.5
+        with:
+          eventId: "DO0091"
+
+      - name: Read settings
+        id: ReadSettings
+        uses: microsoft/AL-Go-Actions/ReadSettings@v1.5
+        with:
+          parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
+          getProjects: 'Y'
+          getEnvironments: '*'
+
+  BranchCutOff:
+    runs-on: [ windows-latest ]
+    needs: [ Initialization ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Create cut off branch
+        uses: iNECTA/AL-Go-Actions-INECTA/BranchCutOff@main
+        env:
+          secrets: ${{ toJson(secrets) }}
+
+      - name: Update customer repository
+        uses: iNECTA/AL-Go-Actions-INECTA/UpdateCustomerRepository@main
+
+  PostProcess:
+    if: always()
+    runs-on: [ windows-latest ]
+    needs: [ Initialization, BranchCutOff ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Finalize the workflow
+        id: PostProcess
+        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v1.5
+        with:
+          eventId: "DO0091"
+          telemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}

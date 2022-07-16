@@ -3,7 +3,9 @@ name: CI/CD
 on:
   workflow_call:
     outputs:
-      RelVerTag: ${{ jobs.UploadBlobs.outputs.RelVerTag }}
+      RelVerTag:
+        description: Release version string
+        value: ${{ jobs.UploadBlobs.outputs.RelVerTag }}
 
 permissions:
   contents: read

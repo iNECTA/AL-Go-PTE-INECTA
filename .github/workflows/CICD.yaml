@@ -41,6 +41,8 @@ jobs:
 
   BranchCutOff:
     runs-on: [ windows-latest ]
+    permissions:
+      contents: write
     needs: [ Initialization ]
     steps:
       - name: Checkout

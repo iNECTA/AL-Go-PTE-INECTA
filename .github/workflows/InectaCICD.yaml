@@ -1,0 +1,12 @@
+name: INECTA CI/CD
+
+on:
+  workflow_dispatch:
+
+jobs:
+  BranchCutOff:
+    uses: ./.github/workflows/BranchCutOff.yaml
+
+  BranchCutOff:
+    needs: [ BranchCutOff ]
+    uses: ./.github/workflows/CICD.yaml

@@ -6,7 +6,9 @@ on:
 jobs:
   BranchCutOff:
     uses: ./.github/workflows/BranchCutOff.yaml
+    secrets: inherit
 
   Build:
     needs: [ BranchCutOff ]
     uses: ./.github/workflows/CICD.yaml
+    secrets: inherit

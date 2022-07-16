@@ -1,8 +1,5 @@
 name: Test Current
 
-on:
-  workflow_dispatch:
-
 permissions:
   contents: read
 

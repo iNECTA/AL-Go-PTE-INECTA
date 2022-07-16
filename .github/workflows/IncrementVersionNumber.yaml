@@ -1,7 +1,6 @@
 name: Increment Version Number
 
 on:
-  workflow_dispatch:
     inputs:
       project:
         description: Project name if the repository is setup for multiple projects (* for all projects)

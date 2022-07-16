@@ -1,8 +1,5 @@
 name: Test Next Minor
 
-on:
-  workflow_dispatch:
-
 permissions:
   contents: read
 

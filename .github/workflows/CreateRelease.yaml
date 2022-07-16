@@ -43,11 +43,11 @@ on:
         default: 'latest'
       name:
         description: Name of this release
-        required: true
+        required: false
         default: ''
       tag:
         description: Tag of this release (needs to be semantic version string https://semver.org)
-        required: true
+        required: false
         default: ''
       prerelease:
         description: Prerelease (Y/N)
@@ -96,9 +96,24 @@ jobs:
         with:
           eventId: "DO0094"
 
-  CreateRelease:
+  ReleaseVersion:
     runs-on: [ windows-latest ]
     needs: [ Initialization ]
+    outputs:
+      RelVerTag: ${{ steps.RelVerTag.outputs.RelVerTag }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get release version
+        id: RelVerTag
+        shell: PowerShell
+        run: |
+          Write-Output ::set-output name=RelVerTag::$(Get-Content -Path "$ENV:GITHUB_WORKSPACE\release.version")
+
+  CreateRelease:
+    runs-on: [ windows-latest ]
+    needs: [ Initialization, ReleaseVersion ]
     outputs:
       artifacts: ${{ steps.analyzeartifacts.outputs.artifacts }}
       upload_url: ${{ steps.createrelease.outputs.upload_url }}
@@ -145,7 +160,7 @@ jobs:
         uses: microsoft/AL-Go-Actions/CreateReleaseNotes@v1.5
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
-          tag_name: '${{github.event.inputs.tag}}'
+          tag_name: '${{jobs.ReleaseVersion.outputs.RelVerTag}}'
 
       - name: Create release
         uses: actions/create-release@v1
@@ -155,8 +170,8 @@ jobs:
         with:
           draft: ${{ github.event.inputs.draft=='Y' }}
           prerelease: ${{ github.event.inputs.prerelease=='Y' }}
-          release_name: '${{ github.event.inputs.name }}'
-          tag_name: '${{ github.event.inputs.tag }}'
+          release_name: '${{ jobs.ReleaseVersion.outputs.RelVerTag }}'
+          tag_name: '${{ jobs.ReleaseVersion.outputs.RelVerTag }}'
           body: ${{ steps.createreleasenotes.outputs.releaseNotes }}
 
   UploadArtifacts:
@@ -267,18 +282,18 @@ jobs:
   CreateReleaseBranch:
     if: ${{ github.event.inputs.createReleaseBranch=='Y' }}
     runs-on: [ windows-latest ]
-    needs: [ Initialization, CreateRelease, UploadArtifacts ]
+    needs: [ Initialization, ReleaseVersion, CreateRelease, UploadArtifacts ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Create Release Branch
         run: |
-          git checkout -b release/${{ github.event.inputs.tag }}
+          git checkout -b release/${{ jobs.ReleaseVersion.outputs.RelVerTag }}
           git config user.name ${{ github.actor}}
           git config user.email ${{ github.actor}}@users.noreply.github.com
-          git commit --allow-empty -m "Release branch ${{ github.event.inputs.tag }}"
-          git push origin release/${{ github.event.inputs.tag }}
+          git commit --allow-empty -m "Release branch ${{ jobs.ReleaseVersion.outputs.RelVerTag }}"
+          git push origin release/${{ jobs.ReleaseVersion.outputs.RelVerTag }}
 
   UpdateVersionNumber:
     if: ${{ github.event.inputs.updateVersionNumber!='' }}
@@ -295,7 +310,7 @@ jobs:
   PostProcess:
     if: always()
     runs-on: [ windows-latest ]
-    needs: [ Initialization, CreateRelease, UploadArtifacts, CreateReleaseBranch, UpdateVersionNumber ]
+    needs: [ Initialization, ReleaseVersion, CreateRelease, UploadArtifacts, CreateReleaseBranch, UpdateVersionNumber ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2

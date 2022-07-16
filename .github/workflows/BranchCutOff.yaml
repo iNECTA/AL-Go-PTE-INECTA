@@ -2,6 +2,7 @@ name: Branch Cut Off
 
 on:
   workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: write

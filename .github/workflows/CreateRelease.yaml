@@ -2,6 +2,7 @@ name: Create release
 
 on:
   workflow_dispatch:
+  workflow_call:
     inputs:
       appVersion:
         description: App version to promote to release (default is latest)

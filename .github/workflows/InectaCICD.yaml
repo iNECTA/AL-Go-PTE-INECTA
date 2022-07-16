@@ -26,15 +26,14 @@ jobs:
         id: RelVerTag
         shell: PowerShell
         run: |
-          $releaseversion = Get-Content -Path "$ENV:GITHUB_WORKSPACE\release.version"
-          Write-Output ::set-output name=RelVerTag::$($releaseversion)
+          Write-Output ::set-output name=RelVerTag::$(Get-Content -Path "$ENV:GITHUB_WORKSPACE\release.version")
 
   Release:
     needs: [ BranchCutOff, Build, ReleaseVersion ]
     uses: ./.github/workflows/CreateRelease.yaml
     with:
-      name: ${{ jobs.ReleaseVersion.outputs.RelVerTag }}
-      tag: ${{ jobs.ReleaseVersion.outputs.RelVerTag }}
+      name: ${{ needs.ReleaseVersion.outputs.RelVerTag }}
+      tag: ${{ needs.ReleaseVersion.outputs.RelVerTag }}
       createReleaseBranch: "Y"
       directCommit: "Y"
     secrets: inherit

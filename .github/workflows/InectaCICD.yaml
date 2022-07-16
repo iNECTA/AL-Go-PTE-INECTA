@@ -12,8 +12,6 @@ jobs:
     needs: [ BranchCutOff ]
     uses: ./.github/workflows/CICD.yaml
     secrets: inherit
-    outputs:
-      RelVerTag: ${{ env.RelVerTag }}
 
   Release:
     needs: [ BranchCutOff, Build ]

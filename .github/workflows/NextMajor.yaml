@@ -1,8 +1,5 @@
 name: Test Next Major
 
-on:
-  workflow_dispatch:
-
 permissions:
   contents: read
 

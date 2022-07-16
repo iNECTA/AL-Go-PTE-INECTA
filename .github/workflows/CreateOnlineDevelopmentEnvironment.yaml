@@ -1,7 +1,6 @@
 name: Create Online Dev. Environment
 
 on:
-  workflow_dispatch:
     inputs:
       environmentName:
         description: Name of the online environment

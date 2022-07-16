@@ -48,9 +48,13 @@ jobs:
 
       - name: Create cut off branch
         uses: iNECTA/AL-Go-Actions-INECTA/BranchCutOff@main
+        env:
+          secrets: ${{ toJson(secrets) }}
 
       - name: Update customer repository
         uses: iNECTA/AL-Go-Actions-INECTA/UpdateCustomerRepository@main
+        env:
+          secrets: ${{ toJson(secrets) }}
 
   CheckForUpdates:
     runs-on: [ windows-latest ]

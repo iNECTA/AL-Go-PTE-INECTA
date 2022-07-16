@@ -12,3 +12,13 @@ jobs:
     needs: [ BranchCutOff ]
     uses: ./.github/workflows/CICD.yaml
     secrets: inherit
+
+  Release:
+    needs: [ BranchCutOff, Build ]
+    uses: ./.github/workflows/CreateRelease.yaml
+    with:
+      name: ${{ env.RelVerTag }}
+      tag: ${{ env.RelVerTag }}
+      createReleaseBranch: "Y"
+      directCommit: "Y"
+    secrets: inherit

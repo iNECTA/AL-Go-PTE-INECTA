@@ -13,11 +13,27 @@ jobs:
     uses: ./.github/workflows/CICD.yaml
     secrets: inherit
 
-  Release:
+  ReleaseVersion:
+    runs-on: [ windows-latest ]
     needs: [ BranchCutOff, Build ]
+    outputs:
+      RelVerTag: ${{ steps.RelVerTag.outputs.RelVerTag }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get release version
+        id: RelVerTag
+        shell: PowerShell
+        run: |
+          $releaseversion = Get-Content -Path "$ENV:GITHUB_WORKSPACE\release.version"
+          echo ::set-output name=RelVerTag::$($sqlConnectionString)
+
+  Release:
+    needs: [ BranchCutOff, Build, ReleaseVersion ]
     uses: ./.github/workflows/CreateRelease.yaml
     with:
-      name: ${{ needs.Build.outputs.RelVerTag }}
+      name: ${{ needs.ReleaseVersion.outputs.RelVerTag }}
       tag: ${{ needs.Build.outputs.RelVerTag }}
       createReleaseBranch: "Y"
       directCommit: "Y"

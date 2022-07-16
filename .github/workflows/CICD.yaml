@@ -168,6 +168,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: '${{ github.workspace }}\artifacts'
+
       - name: Upload blobs to Azure Blob Storage
         uses: iNECTA/AL-Go-Actions-INECTA/UploadBlobs@main
         env:

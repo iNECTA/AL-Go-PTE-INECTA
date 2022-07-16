@@ -2,10 +2,6 @@ name: CI/CD
 
 on:
   workflow_call:
-    outputs:
-      RelVerTag:
-        description: Release version string
-        value: ${{ jobs.UploadBlobs.outputs.RelVerTag }}
 
 permissions:
   contents: read
@@ -167,8 +163,6 @@ jobs:
   UploadBlobs:
     runs-on: [ windows-latest ]
     needs: [ Initialization, Build ]
-    outputs:
-      RelVerTag: ${{ env.RelVerTag }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2

@@ -78,12 +78,6 @@ jobs:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           get: TemplateUrl
 
-      - name: Check for updates to AL-Go system files
-        uses: microsoft/AL-Go-Actions/CheckForUpdates@v1.5
-        with:
-          parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
-          templateUrl: ${{ env.TemplateUrl }}
-
       - name: Analyze Artifacts
         id: analyzeartifacts
         run: |

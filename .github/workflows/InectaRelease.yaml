@@ -97,7 +97,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Read settings
-        uses: iNECTA/AL-Go-Actions-PTE/ReadSettings@main
+        uses: iNECTA/AL-Go-Actions-INECTA/ReadSettings@main
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           get: TemplateUrl
@@ -157,7 +157,7 @@ jobs:
       fail-fast: true
     steps:
       - name: Read settings
-        uses: iNECTA/AL-Go-Actions-PTE/ReadSettings@main
+        uses: iNECTA/AL-Go-Actions-INECTA/ReadSettings@main
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
 

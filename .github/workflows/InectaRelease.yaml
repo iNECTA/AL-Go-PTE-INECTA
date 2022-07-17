@@ -1,7 +1,7 @@
-name: INECTA Release
+﻿name: INECTA Release
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       appVersion:
         description: App version to promote to release (default is latest)
@@ -85,6 +85,7 @@ jobs:
         run: |
           $releaseversion = Get-Content -Path "$ENV:GITHUB_WORKSPACE\release.version"
           Write-Output "::set-output name=relVerTag::$($releaseversion)"
+          Write-Host -Object "Release verion: $releaseversion"
 
   CreateRelease:
     runs-on: [ windows-latest ]

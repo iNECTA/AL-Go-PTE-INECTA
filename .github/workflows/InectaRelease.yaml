@@ -1,7 +1,7 @@
-name: Create release
+name: INECTA Release
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       appVersion:
         description: App version to promote to release (default is latest)
@@ -26,7 +26,7 @@ on:
       createReleaseBranch:
         description: Create Release Branch (Y/N)
         required: false
-        default: 'N'
+        default: 'Y'
       updateVersionNumber:
         description: New Version Number in main branch. Use Major.Minor for absolute change, use +Major.Minor for incremental change.
         required: false
@@ -34,7 +34,7 @@ on:
       directCommit:
         description: Direct COMMIT (Y/N)
         required: false
-        default: 'N'
+        default: 'Y'
 
 permissions:
   contents: write
@@ -66,16 +66,17 @@ jobs:
     runs-on: [ windows-latest ]
     needs: [ Initialization ]
     outputs:
-      RelVerTag: ${{ steps.RelVerTag.outputs.RelVerTag }}
+      relVerTag: ${{ steps.relver.outputs.relVerTag }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Get release version
-        id: RelVerTag
+        id: relver
         shell: PowerShell
         run: |
-          Write-Output ::set-output name=RelVerTag::$(Get-Content -Path "$ENV:GITHUB_WORKSPACE\release.version")
+          $releaseversion = Get-Content -Path "$ENV:GITHUB_WORKSPACE\release.version"
+          Write-Output "::set-output name=relVerTag::$($releaseversion)"
 
   CreateRelease:
     runs-on: [ windows-latest ]
@@ -88,7 +89,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.5
+        uses: iNECTA/AL-Go-Actions-PTE/ReadSettings@main
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           get: TemplateUrl
@@ -126,7 +127,7 @@ jobs:
         uses: microsoft/AL-Go-Actions/CreateReleaseNotes@v1.5
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
-          tag_name: '${{jobs.ReleaseVersion.outputs.RelVerTag}}'
+          tag_name: '${{ needs.ReleaseVersion.outputs.relVerTag }}'
 
       - name: Create release
         uses: actions/create-release@v1
@@ -136,8 +137,8 @@ jobs:
         with:
           draft: ${{ github.event.inputs.draft=='Y' }}
           prerelease: ${{ github.event.inputs.prerelease=='Y' }}
-          release_name: '${{ jobs.ReleaseVersion.outputs.RelVerTag }}'
-          tag_name: '${{ jobs.ReleaseVersion.outputs.RelVerTag }}'
+          release_name: '${{ needs.ReleaseVersion.outputs.relVerTag }}'
+          tag_name: '${{ needs.ReleaseVersion.outputs.relVerTag }}'
           body: ${{ steps.createreleasenotes.outputs.releaseNotes }}
 
   UploadArtifacts:
@@ -148,7 +149,7 @@ jobs:
       fail-fast: true
     steps:
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.5
+        uses: iNECTA/AL-Go-Actions-PTE/ReadSettings@main
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
 
@@ -255,11 +256,11 @@ jobs:
 
       - name: Create Release Branch
         run: |
-          git checkout -b release/${{ jobs.ReleaseVersion.outputs.RelVerTag }}
+          git checkout -b release/${{ needs.ReleaseVersion.outputs.relVerTag }}
           git config user.name ${{ github.actor}}
           git config user.email ${{ github.actor}}@users.noreply.github.com
-          git commit --allow-empty -m "Release branch ${{ jobs.ReleaseVersion.outputs.RelVerTag }}"
-          git push origin release/${{ jobs.ReleaseVersion.outputs.RelVerTag }}
+          git commit --allow-empty -m "Release branch ${{ needs.ReleaseVersion.outputs.relVerTag }}"
+          git push origin release/${{ needs.ReleaseVersion.outputs.relVerTag }}
 
   UpdateVersionNumber:
     if: ${{ github.event.inputs.updateVersionNumber!='' }}

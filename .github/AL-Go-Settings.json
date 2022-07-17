@@ -1,4 +1,5 @@
 {
-    "type":  "PTE",
-    "templateUrl":  "https://github.com/iNECTA/AL-Go-PTE-INECTA@main"
+    "type": "PTE",
+    "templateUrl": "https://github.com/iNECTA/AL-Go-PTE-INECTA@main",
+    "versioningStrategy": 3
 }

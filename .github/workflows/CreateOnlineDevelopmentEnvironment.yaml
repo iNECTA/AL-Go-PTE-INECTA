@@ -47,7 +47,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.5
+        uses: iNECTA/AL-Go-Actions-PTE/ReadSettings@main
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
 

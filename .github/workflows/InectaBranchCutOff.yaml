@@ -1,4 +1,4 @@
-﻿name: Branch Cut Off
+﻿name: INECTA Branch Cut Off
 
 on:
   workflow_dispatch:

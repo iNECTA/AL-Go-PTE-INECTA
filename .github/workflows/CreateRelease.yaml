@@ -26,7 +26,7 @@ on:
       createReleaseBranch:
         description: Create Release Branch (Y/N)
         required: false
-        default: 'N'
+        default: 'Y'
       updateVersionNumber:
         description: New Version Number in main branch. Use Major.Minor for absolute change, use +Major.Minor for incremental change.
         required: false
@@ -34,7 +34,7 @@ on:
       directCommit:
         description: Direct COMMIT (Y/N)
         required: false
-        default: 'N'
+        default: 'Y'
 
 permissions:
   contents: write

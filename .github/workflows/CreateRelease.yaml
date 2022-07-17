@@ -1,5 +1,41 @@
 name: Create release
 
+on:
+  workflow_call:
+    inputs:
+      appVersion:
+        description: App version to promote to release (default is latest)
+        required: false
+        default: 'latest'
+      name:
+        description: Name of this release
+        required: true
+        default: ''
+      tag:
+        description: Tag of this release (needs to be semantic version string https://semver.org)
+        required: true
+        default: ''
+      prerelease:
+        description: Prerelease (Y/N)
+        required: false
+        default: 'N'
+      draft:
+        description: Draft (Y/N)
+        required: false
+        default: 'N'
+      createReleaseBranch:
+        description: Create Release Branch (Y/N)
+        required: false
+        default: 'N'
+      updateVersionNumber:
+        description: New Version Number in main branch. Use Major.Minor for absolute change, use +Major.Minor for incremental change.
+        required: false
+        default: ''
+      directCommit:
+        description: Direct COMMIT (Y/N)
+        required: false
+        default: 'N'
+
 permissions:
   contents: write
   pull-requests: write

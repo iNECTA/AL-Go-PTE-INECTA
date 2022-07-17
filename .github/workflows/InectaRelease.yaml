@@ -1,38 +1,46 @@
 name: INECTA Release
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       appVersion:
         description: App version to promote to release (default is latest)
+        type: string
         required: false
         default: 'latest'
       name:
         description: Name of this release
+        type: string
         required: false
         default: ''
       tag:
         description: Tag of this release (needs to be semantic version string https://semver.org)
+        type: string
         required: false
         default: ''
       prerelease:
         description: Prerelease (Y/N)
+        type: string
         required: false
         default: 'N'
       draft:
         description: Draft (Y/N)
+        type: string
         required: false
         default: 'N'
       createReleaseBranch:
         description: Create Release Branch (Y/N)
+        type: string
         required: false
         default: 'Y'
       updateVersionNumber:
         description: New Version Number in main branch. Use Major.Minor for absolute change, use +Major.Minor for incremental change.
+        type: string
         required: false
         default: ''
       directCommit:
         description: Direct COMMIT (Y/N)
+        type: string
         required: false
         default: 'Y'
 

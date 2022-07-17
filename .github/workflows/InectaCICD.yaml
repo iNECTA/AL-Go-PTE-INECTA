@@ -15,8 +15,5 @@ jobs:
 
   Release:
     needs: [ BranchCutOff, Build ]
-    uses: ./.github/workflows/CreateRelease.yaml
-    with:
-      createReleaseBranch: "Y"
-      directCommit: "Y"
+    uses: ./.github/workflows/InectaRelease.yaml
     secrets: inherit

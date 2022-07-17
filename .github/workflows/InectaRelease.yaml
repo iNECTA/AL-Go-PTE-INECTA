@@ -8,16 +8,6 @@ on:
         type: string
         required: false
         default: 'latest'
-      name:
-        description: Name of this release
-        type: string
-        required: false
-        default: ''
-      tag:
-        description: Tag of this release (needs to be semantic version string https://semver.org)
-        type: string
-        required: false
-        default: ''
       prerelease:
         description: Prerelease (Y/N)
         type: string

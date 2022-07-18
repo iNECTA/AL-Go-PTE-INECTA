@@ -1,10 +1,7 @@
 ﻿name: INECTA Compile
 
 on:
-  workflow_run:
-    workflows: [ INECTA Branch Cut Off ]
-    types:
-      - completed
+  workflow_dispatch:
 
 permissions:
   contents: read

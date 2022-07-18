@@ -1,10 +1,7 @@
 ﻿name: INECTA Release
 
 on:
-  workflow_run:
-    workflows: [ INECTA Compile ]
-    types:
-      - completed
+  workflow_dispatch:
 
 permissions:
   contents: write

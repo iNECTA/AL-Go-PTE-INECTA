@@ -2,7 +2,7 @@
 
 on:
   workflow_run:
-    workflows: [ INECTA Branch Cut Off, INECTA Compile ]
+    workflows: [ INECTA Compile ]
     types:
       - completed
 

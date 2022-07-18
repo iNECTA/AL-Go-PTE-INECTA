@@ -1,38 +1,10 @@
 ﻿name: INECTA Release
 
 on:
-  workflow_dispatch:
-    inputs:
-      appVersion:
-        description: App version to promote to release (default is latest)
-        type: string
-        required: false
-        default: 'latest'
-      prerelease:
-        description: Prerelease (Y/N)
-        type: string
-        required: false
-        default: 'N'
-      draft:
-        description: Draft (Y/N)
-        type: string
-        required: false
-        default: 'N'
-      createReleaseBranch:
-        description: Create Release Branch (Y/N)
-        type: string
-        required: false
-        default: 'Y'
-      updateVersionNumber:
-        description: New Version Number in main branch. Use Major.Minor for absolute change, use +Major.Minor for incremental change.
-        type: string
-        required: false
-        default: ''
-      directCommit:
-        description: Direct COMMIT (Y/N)
-        type: string
-        required: false
-        default: 'Y'
+  workflow_run:
+    workflows: [ INECTA Branch Cut Off, INECTA Compile ]
+    types:
+      - completed
 
 permissions:
   contents: write
@@ -97,7 +69,7 @@ jobs:
         id: analyzeartifacts
         run: |
           Write-Host "Analyzing artifacts"
-          $appVersion = '${{ github.event.inputs.appVersion }}'
+          $appVersion = "latest"
           $headers = @{ 
               "Authorization" = "token ${{ github.token }}"
               "Accept"        = "application/json"
@@ -134,8 +106,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          draft: ${{ github.event.inputs.draft=='Y' }}
-          prerelease: ${{ github.event.inputs.prerelease=='Y' }}
+          draft: "N"
+          prerelease: "N"
           release_name: '${{ needs.ReleaseVersion.outputs.relVerTag }}'
           tag_name: '${{ needs.ReleaseVersion.outputs.relVerTag }}'
           body: ${{ steps.createreleasenotes.outputs.releaseNotes }}
@@ -246,7 +218,6 @@ jobs:
           }
 
   CreateReleaseBranch:
-    if: ${{ github.event.inputs.createReleaseBranch=='Y' }}
     runs-on: [ windows-latest ]
     needs: [ Initialization, ReleaseVersion, CreateRelease, UploadArtifacts ]
     steps:
@@ -261,22 +232,10 @@ jobs:
           git commit --allow-empty -m "Release branch ${{ needs.ReleaseVersion.outputs.relVerTag }}"
           git push origin release/${{ needs.ReleaseVersion.outputs.relVerTag }}
 
-  UpdateVersionNumber:
-    if: ${{ github.event.inputs.updateVersionNumber!='' }}
-    runs-on: [ windows-latest ]
-    needs: [ Initialization, CreateRelease, UploadArtifacts ]
-    steps:
-      - name: Update Version Number
-        uses: microsoft/AL-Go-Actions/IncrementVersionNumber@v1.5
-        with:
-          parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
-          versionNumber: ${{ github.event.inputs.updateVersionNumber }}
-          directCommit: ${{ github.event.inputs.directCommit }}
-
   PostProcess:
     if: always()
     runs-on: [ windows-latest ]
-    needs: [ Initialization, ReleaseVersion, CreateRelease, UploadArtifacts, CreateReleaseBranch, UpdateVersionNumber ]
+    needs: [ Initialization, ReleaseVersion, CreateRelease, UploadArtifacts, CreateReleaseBranch ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2

@@ -2,15 +2,6 @@ name: Update AL-Go System Files
 
 on:
   workflow_dispatch:
-    inputs:
-      templateUrl:
-        description: Template Repository URL (only if a change is needed)
-        required: false
-        default: ''
-      directCommit:
-        description: Direct COMMIT (Y/N)
-        required: false
-        default: 'N'
 
 permissions:
   contents: read
@@ -72,7 +63,7 @@ jobs:
           token: ${{ env.ghTokenWorkflow }}
           Update: Y
           templateUrl: ${{ env.TemplateUrl }}
-          directCommit: ${{ github.event.inputs.directCommit }}
+          directCommit: "Y"
 
   PostProcess:
     if: always()

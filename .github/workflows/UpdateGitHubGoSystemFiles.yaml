@@ -2,15 +2,6 @@ name: Update AL-Go System Files
 
 on:
   workflow_dispatch:
-    inputs:
-      templateUrl:
-        description: Template Repository URL (only if a change is needed)
-        required: false
-        default: ''
-      directCommit:
-        description: Direct COMMIT (Y/N)
-        required: false
-        default: 'N'
 
 permissions:
   contents: read
@@ -57,14 +48,6 @@ jobs:
           settingsJson: ${{ env.Settings }}
           secrets: 'ghTokenWorkflow=${{ env.GHTOKENWORKFLOWSECRETNAME }}'
 
-      - name: Override TemplateUrl
-        run: |
-          $templateUrl = '${{ github.event.inputs.templateUrl }}'
-          if ($templateUrl) {
-            Write-Host "Using Template Url: $templateUrl"
-            Add-Content -Path $env:GITHUB_ENV -Value "TemplateUrl=$templateUrl"
-          }
-
       - name: Update AL-Go system files
         uses: iNECTA/AL-Go-Actions-INECTA/CheckForUpdates@main
         with:
@@ -72,7 +55,7 @@ jobs:
           token: ${{ env.ghTokenWorkflow }}
           Update: Y
           templateUrl: ${{ env.TemplateUrl }}
-          directCommit: ${{ github.event.inputs.directCommit }}
+          directCommit: "Y"
 
   PostProcess:
     if: always()

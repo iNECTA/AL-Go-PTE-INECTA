@@ -115,6 +115,7 @@ jobs:
             $environmentName = '${{ steps.envName.outputs.envName }}'
           }
           $environmentName = ($environmentName + '${{ matrix.environment }}'.SubString($envName.Length)).ToUpperInvariant()
+          $authContext = (((($authContext) -replace "\{", "{`"") -replace "\:", "`":`"") -replace "\,", "`",`"") -replace "\}", "`"}"
           Write-Host "::set-output name=authContext::$authContext"
           Write-Host "set-output name=authContext::$authContext"
           Write-Host "::set-output name=environmentName::$environmentName"

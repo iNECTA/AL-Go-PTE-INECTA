@@ -1,7 +1,8 @@
 name: Update AL-Go System Files
 
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'
 
 permissions:
   contents: read

@@ -87,6 +87,8 @@ jobs:
 
       - name: AuthContext
         id: authContext
+        env:
+          inectacd: ${{ secrets.INECTACD }}
         run: |
           $envName = '${{ steps.envName.outputs.envName }}'
           $authContext = $null
@@ -96,7 +98,7 @@ jobs:
               if ($authContext) {
                 Write-Host "Using $_ secret"
               }
-            }            
+            }
           }
           if (!($authContext)) {
             Write-Host "::Error::No AuthContext provided"
@@ -109,7 +111,7 @@ jobs:
               if ($EnvironmentName) {
                 Write-Host "Using $_ secret"
               }
-            }            
+            }
           }
           if (!($environmentName)) {
             $environmentName = '${{ steps.envName.outputs.envName }}'

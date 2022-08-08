@@ -88,7 +88,7 @@ jobs:
       - name: AuthContext
         id: authContext
         env:
-          inectacd: ${{ secrets.INECTACD }}
+          INECTACD: ${{ secrets.INECTACD }}
         run: |
           $envName = '${{ steps.envName.outputs.envName }}'
           $authContext = $null
@@ -117,7 +117,9 @@ jobs:
             $environmentName = '${{ steps.envName.outputs.envName }}'
           }
           $environmentName = ($environmentName + '${{ matrix.environment }}'.SubString($envName.Length)).ToUpperInvariant()
-          $authContext = (((($authContext) -replace "\{", "{`"") -replace "\:", "`":`"") -replace "\,", "`",`"") -replace "\}", "`"}"
+          $authContext = (((($authContext) -replace "\{", "{`"") -replace "\:", "`":`"") -replace "\,", "`",`"") -replace "\}", "`"}" | ConvertFrom-Json
+          $authContext.ClientSecret = $ENV:INECTACD
+          $authcontext = $authcontext | ConvertTo-Json -Compress
           Write-Host "::set-output name=authContext::$authContext"
           Write-Host "set-output name=authContext::$authContext"
           Write-Host "::set-output name=environmentName::$environmentName"

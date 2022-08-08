@@ -1,29 +1,19 @@
-name: Create a new app
+name: Increment Version Number
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       project:
-        description: Project name if the repository is setup for multiple projects
+        description: Project name if the repository is setup for multiple projects (* for all projects)
         required: false
         default: '.'
-      name:
-        description: Name
-        required: true      
-      publisher:
-        description: Publisher
+      versionNumber:
+        description: Updated Version Number. Use Major.Minor for absolute change, use +Major.Minor for incremental change.
         required: true
-      idrange:
-        description: ID range (from..to)
-        required: true
-      sampleCode:
-        description: Include Sample code (Y/N)
-        required: false
-        default: 'Y'
       directCommit:
         description: Direct COMMIT (Y/N)
         required: false
-        default: "N"
+        default: 'N'
 
 permissions:
   contents: write
@@ -46,37 +36,25 @@ jobs:
         id: init
         uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.5
         with:
-          eventId: "DO0092"
+          eventId: "DO0096"
 
-  CreateApp:
+  Update:
     runs-on: [ windows-latest ]
     needs: [ Initialization ]
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.5
-        with:
-          parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
-          get: type
-
-      - name: Creating a new app
-        uses: microsoft/AL-Go-Actions/CreateApp@v1.5
+      - name: Increment Version Number
+        uses: microsoft/AL-Go-Actions/IncrementVersionNumber@v1.5
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           project: ${{ github.event.inputs.project }}
-          type: ${{ env.type }}
-          name: ${{ github.event.inputs.name }}
-          publisher: ${{ github.event.inputs.publisher }}
-          idrange: ${{ github.event.inputs.idrange }}
-          sampleCode: ${{ github.event.inputs.sampleCode }}
+          versionNumber: ${{ github.event.inputs.versionNumber }}
           directCommit: ${{ github.event.inputs.directCommit }}
-
+  
   PostProcess:
     if: always()
     runs-on: [ windows-latest ]
-    needs: [ Initialization, CreateApp ]
+    needs: [ Initialization, Update ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -85,5 +63,5 @@ jobs:
         id: PostProcess
         uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v1.5
         with:
-          eventId: "DO0092"
+          eventId: "DO0096"
           telemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}

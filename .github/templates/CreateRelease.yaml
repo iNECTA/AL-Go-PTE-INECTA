@@ -1,7 +1,7 @@
 name: Create release
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       appVersion:
         description: App version to promote to release (default is latest)
@@ -26,7 +26,7 @@ on:
       createReleaseBranch:
         description: Create Release Branch (Y/N)
         required: false
-        default: 'N'
+        default: 'Y'
       updateVersionNumber:
         description: New Version Number in main branch. Use Major.Minor for absolute change, use +Major.Minor for incremental change.
         required: false
@@ -34,7 +34,7 @@ on:
       directCommit:
         description: Direct COMMIT (Y/N)
         required: false
-        default: 'N'
+        default: 'Y'
 
 permissions:
   contents: write
@@ -73,16 +73,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.5
+        uses: iNECTA/AL-Go-Actions-INECTA/ReadSettings@main
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           get: TemplateUrl
-
-      - name: Check for updates to AL-Go system files
-        uses: microsoft/AL-Go-Actions/CheckForUpdates@v1.5
-        with:
-          parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
-          templateUrl: ${{ env.TemplateUrl }}
 
       - name: Analyze Artifacts
         id: analyzeartifacts
@@ -139,7 +133,7 @@ jobs:
       fail-fast: true
     steps:
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.5
+        uses: iNECTA/AL-Go-Actions-INECTA/ReadSettings@main
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
 

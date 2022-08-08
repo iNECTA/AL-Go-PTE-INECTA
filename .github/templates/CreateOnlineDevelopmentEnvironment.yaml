@@ -1,7 +1,7 @@
 name: Create Online Dev. Environment
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       environmentName:
         description: Name of the online environment
@@ -47,7 +47,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.5
+        uses: iNECTA/AL-Go-Actions-INECTA/ReadSettings@main
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
 

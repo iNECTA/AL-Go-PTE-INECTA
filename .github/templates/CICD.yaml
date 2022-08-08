@@ -1,7 +1,7 @@
 name: CI/CD
 
 on:
-  workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: read
@@ -39,35 +39,6 @@ jobs:
           getProjects: 'Y'
           getEnvironments: '*'
 
-  BranchCutOff:
-    runs-on: [ windows-latest ]
-    needs: [ Initialization, CheckForUpdates ]
-    outputs:
-      telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
-      settings: ${{ steps.ReadSettings.outputs.SettingsJson }}
-      projects: ${{ steps.ReadSettings.outputs.ProjectsJson }}
-      projectCount: ${{ steps.ReadSettings.outputs.ProjectCount }}
-      environments: ${{ steps.ReadSettings.outputs.EnvironmentsJson }}
-      environmentCount: ${{ steps.ReadSettings.outputs.EnvironmentCount }}
-      githubRunner: ${{ steps.ReadSettings.outputs.GitHubRunnerJson }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Create CutOff Branch
-        id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.5
-        with:
-          eventId: "DO0091"
-
-      - name: Update Customer Repository
-        id: ReadSettings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.5
-        with:
-          parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
-          getProjects: 'Y'
-          getEnvironments: '*'
-
   CheckForUpdates:
     runs-on: [ windows-latest ]
     needs: [ Initialization ]
@@ -82,13 +53,13 @@ jobs:
           get: TemplateUrl
 
       - name: Check for updates to AL-Go system files
-        uses: ./Actions/CheckForUpdates/
+        uses: microsoft/AL-Go-Actions/CheckForUpdates@v1.5
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           templateUrl: ${{ env.TemplateUrl }}
 
   Build:
-    needs: [ Initialization, CheckForUpdates, BranchCutOff ]
+    needs: [ Initialization ]
     runs-on: ${{ fromJson(needs.Initialization.outputs.githubRunner) }}
     strategy:
       matrix:
@@ -208,39 +179,92 @@ jobs:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           Project: ${{ matrix.project }}
 
-  UploadBlobs:
-    runs-on: [ windows-latest ]
-    needs: [ Initialization, CheckForUpdates, BranchCutOff, Build ]
-    outputs:
-      telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
-      settings: ${{ steps.ReadSettings.outputs.SettingsJson }}
-      projects: ${{ steps.ReadSettings.outputs.ProjectsJson }}
-      projectCount: ${{ steps.ReadSettings.outputs.ProjectCount }}
-      environments: ${{ steps.ReadSettings.outputs.EnvironmentsJson }}
-      environmentCount: ${{ steps.ReadSettings.outputs.EnvironmentCount }}
-      githubRunner: ${{ steps.ReadSettings.outputs.GitHubRunnerJson }}
+  Deploy:
+    runs-on: [ windows-latest ] 
+    needs: [ Initialization, Build ]
+    if: ${{ github.event_name != 'pull_request' && github.ref_name == 'main' && needs.Initialization.outputs.environmentCount > 0 }}
+    strategy:
+      matrix:
+        environment: ${{ fromJson(needs.Initialization.outputs.environments) }}
+      fail-fast: false
+    name: Deploy to ${{ matrix.environment }}
+    environment:
+      name: ${{ matrix.environment }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Upload Artifacts to Azure Blob Storage
-        id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.5
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
         with:
-          eventId: "DO0091"
+          path: '${{ github.workspace }}\artifacts'
+
+      - name: EnvName
+        id: envName
+        run: |
+          $envName = '${{ matrix.environment }}'.split(' ')[0]
+          Write-Host "::set-output name=envName::$envName"
 
       - name: Read settings
-        id: ReadSettings
         uses: microsoft/AL-Go-Actions/ReadSettings@v1.5
+
+      - name: Read secrets
+        uses: microsoft/AL-Go-Actions/ReadSecrets@v1.5
+        env:
+          secrets: ${{ toJson(secrets) }}
         with:
-          parentTelemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
-          getProjects: 'Y'
-          getEnvironments: '*'
+          settingsJson: ${{ env.Settings }}
+          secrets: '${{ steps.envName.outputs.envName }}-AuthContext,${{ steps.envName.outputs.envName }}_AuthContext,AuthContext,${{ steps.envName.outputs.envName }}-EnvironmentName,${{ steps.envName.outputs.envName }}_EnvironmentName,EnvironmentName'
+
+      - name: AuthContext
+        id: authContext
+        run: |
+          $envName = '${{ steps.envName.outputs.envName }}'
+          $authContext = $null
+          "$($envName)-AuthContext", "$($envName)_AuthContext", "AuthContext" | ForEach-Object {
+            if (!($authContext)) {
+              $authContext = [System.Environment]::GetEnvironmentVariable($_)
+              if ($authContext) {
+                Write-Host "Using $_ secret"
+              }
+            }            
+          }
+          if (!($authContext)) {
+            Write-Host "::Error::No AuthContext provided"
+            exit 1
+          }
+          $environmentName = $null
+          "$($envName)-EnvironmentName", "$($envName)_EnvironmentName", "EnvironmentName" | ForEach-Object {
+            if (!($EnvironmentName)) {
+              $EnvironmentName = [System.Environment]::GetEnvironmentVariable($_)
+              if ($EnvironmentName) {
+                Write-Host "Using $_ secret"
+              }
+            }            
+          }
+          if (!($environmentName)) {
+            $environmentName = '${{ steps.envName.outputs.envName }}'
+          }
+          $environmentName = ($environmentName + '${{ matrix.environment }}'.SubString($envName.Length)).ToUpperInvariant()
+          Write-Host "::set-output name=authContext::$authContext"
+          Write-Host "set-output name=authContext::$authContext"
+          Write-Host "::set-output name=environmentName::$environmentName"
+          Write-Host "set-output name=environmentName::$environmentName"
+
+      - name: Deploy
+        uses: microsoft/AL-Go-Actions/Deploy@v1.5
+        env:
+          authContext: '${{ steps.authContext.outputs.authContext }}'
+        with:
+          type: 'CD'
+          projects: '${{ secrets.Projects }}'
+          environmentName: '${{ steps.authContext.outputs.environmentName }}'
+          artifacts: '${{ github.workspace }}\artifacts'
 
   PostProcess:
     if: always()
     runs-on: [ windows-latest ]
-    needs: [ Initialization, CheckForUpdates, BranchCutOff, Build, UploadBlobs ]
+    needs: [ Initialization,  Build, Deploy ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2

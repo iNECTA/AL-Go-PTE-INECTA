@@ -1,0 +1,55 @@
+﻿name: INECTA Branch Cut Off
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: PowerShell
+
+jobs:
+  Initialization:
+    runs-on: [ windows-latest ]
+    outputs:
+      telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Initialize the workflow
+        id: init
+        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.5
+        with:
+          eventId: "DO0091"
+
+  BranchCutOff:
+    runs-on: [ windows-latest ]
+    needs: [ Initialization ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Create cut off branch
+        uses: iNECTA/AL-Go-Actions-INECTA/BranchCutOff@main
+        env:
+          secrets: ${{ toJson(secrets) }}
+
+      - name: Update customer repository
+        uses: iNECTA/AL-Go-Actions-INECTA/UpdateCustomerRepository@main
+
+  PostProcess:
+    if: always()
+    runs-on: [ windows-latest ]
+    needs: [ Initialization, BranchCutOff ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Finalize the workflow
+        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v1.5
+        with:
+          eventId: "DO0091"
+          telemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}

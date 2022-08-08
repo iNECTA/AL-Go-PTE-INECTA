@@ -47,7 +47,7 @@ jobs:
 
       - name: Read settings
         id: ReadSettings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.5
+        uses: iNECTA/AL-Go-Actions-INECTA/ReadSettings@main
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           getEnvironments: '${{ github.event.inputs.environmentName }}'
@@ -75,7 +75,7 @@ jobs:
           Write-Host "::set-output name=envName::$envName"
 
       - name: Read settings
-        uses: microsoft/AL-Go-Actions/ReadSettings@v1.5
+        uses: iNECTA/AL-Go-Actions-INECTA/ReadSettings@main
 
       - name: Read secrets
         uses: microsoft/AL-Go-Actions/ReadSecrets@v1.5
@@ -117,6 +117,7 @@ jobs:
             $environmentName = '${{ steps.envName.outputs.envName }}'
           }
           $environmentName = ($environmentName + '${{ matrix.environment }}'.SubString($envName.Length)).ToUpperInvariant()
+          $authContext = (((($authContext) -replace "\{", "{`"") -replace "\:", "`":`"") -replace "\,", "`",`"") -replace "\}", "`"}"
           Write-Host "::set-output name=authContext::$authContext"
           Write-Host "set-output name=authContext::$authContext"
           Write-Host "::set-output name=environmentName::$environmentName"
@@ -147,4 +148,3 @@ jobs:
         with:
           eventId: "DO0097"
           telemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
-

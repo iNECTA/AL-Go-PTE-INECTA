@@ -1,4 +1,4 @@
-﻿name: INECTA Branch Cut Off
+﻿name: Branch Cut Off
 
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ defaults:
 
 jobs:
   Initialization:
-    runs-on: [ windows-latest ]
+    runs-on: [windows-latest]
     outputs:
       telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
     steps:
@@ -26,8 +26,8 @@ jobs:
           eventId: "DO0091"
 
   BranchCutOff:
-    runs-on: [ windows-latest ]
-    needs: [ Initialization ]
+    runs-on: [windows-latest]
+    needs: [Initialization]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -42,8 +42,8 @@ jobs:
 
   PostProcess:
     if: always()
-    runs-on: [ windows-latest ]
-    needs: [ Initialization, BranchCutOff ]
+    runs-on: [windows-latest]
+    needs: [Initialization, BranchCutOff]
     steps:
       - name: Checkout
         uses: actions/checkout@v2

@@ -40,7 +40,7 @@ jobs:
       - name: Create cut off branch
         uses: iNECTA/AL-Go-Actions-INECTA/BranchCutOff2@main
         env:
-          envInput: ${{ github.event.inputs.environmentName }}
+          envInput: ${{ github.event.inputs.Environment }}
           secrets: ${{ toJson(secrets) }}
 
       - name: Update customer repository

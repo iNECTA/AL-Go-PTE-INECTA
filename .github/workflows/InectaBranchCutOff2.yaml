@@ -43,9 +43,6 @@ jobs:
           envInput: ${{ github.event.inputs.Environment }}
           secrets: ${{ toJson(secrets) }}
 
-      - name: Update customer repository
-        uses: iNECTA/AL-Go-Actions-INECTA/UpdateCustomerRepository2@main
-
   PostProcess:
     if: always()
     runs-on: [windows-latest]

@@ -6,7 +6,7 @@ on:
       Environment:
         description: Specify the name of the customer repository and environment json to parse the granules from.
         required: true
-        default: "${{ github.event.repository.name }}/untitled.json"
+        default: "customer/untitled.json"
 
 permissions:
   contents: write

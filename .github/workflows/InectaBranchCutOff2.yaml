@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       Environment:
-        description: Specify the name of the customer repository and environment json to parse the granules from.
+        description: Specify the name of the environment to parse the granules from.
         required: true
         default: "untitled"
 

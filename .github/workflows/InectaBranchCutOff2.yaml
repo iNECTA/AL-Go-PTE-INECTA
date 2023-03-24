@@ -7,6 +7,10 @@ on:
         description: Specify the name of the environment to parse the granules from.
         required: true
         default: "untitled"
+      Tag:
+        description: Specify the value of the tag.
+        required: true
+        default: "123.456"
 
 permissions:
   contents: write

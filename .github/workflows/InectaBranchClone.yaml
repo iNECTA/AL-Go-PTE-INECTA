@@ -1,4 +1,4 @@
-﻿name: Branch Cut Off2
+﻿name: Branch Clone
 
 on:
   workflow_call:
@@ -46,7 +46,7 @@ jobs:
         with:
           eventId: "DO0091"
 
-  BranchCutOff2:
+  BranchClone:
     runs-on: [windows-latest]
     needs: [Initialization]
     steps:
@@ -63,7 +63,7 @@ jobs:
   PostProcess:
     if: always()
     runs-on: [windows-latest]
-    needs: [Initialization, BranchCutOff2]
+    needs: [Initialization, BranchClone]
     steps:
       - name: Checkout
         uses: actions/checkout@v2

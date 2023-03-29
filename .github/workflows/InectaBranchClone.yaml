@@ -1,6 +1,18 @@
 ﻿name: Branch Cut Off2
 
 on:
+  workflow_call:
+    inputs:
+      Environment:
+        description: Specify the name of the environment to parse the granules from.
+        required: true
+        type: string
+        default: "untitled"
+      Tag:
+        description: Specify the value of the tag.
+        required: true
+        type: string
+        default: "123.456"
   workflow_dispatch:
     inputs:
       Environment:

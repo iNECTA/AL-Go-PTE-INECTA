@@ -57,6 +57,7 @@ jobs:
         uses: iNECTA/AL-Go-Actions-INECTA/BranchCutOff2@main
         env:
           envInput: ${{ github.event.inputs.Environment }}
+          envTag: ${{ github.event.inputs.Tag }}
           repoName: ${{ github.event.repository.name }}
           secrets: ${{ toJson(secrets) }}
 

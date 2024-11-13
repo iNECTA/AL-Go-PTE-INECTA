@@ -21,7 +21,7 @@ jobs:
       telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Initialize the workflow
         id: init
@@ -36,7 +36,7 @@ jobs:
       relVerTag: ${{ steps.relver.outputs.relVerTag }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Get release version
         id: relver
@@ -54,7 +54,7 @@ jobs:
       upload_url: ${{ steps.createrelease.outputs.upload_url }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Read settings
         uses: iNECTA/AL-Go-Actions-INECTA/ReadSettings@main
@@ -219,7 +219,7 @@ jobs:
     needs: [ Initialization, ReleaseVersion, CreateRelease, UploadArtifacts ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Create Release Branch
         run: |
@@ -235,7 +235,7 @@ jobs:
     needs: [ Initialization, ReleaseVersion, CreateRelease, UploadArtifacts, CreateReleaseBranch ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Finalize the workflow
         id: PostProcess

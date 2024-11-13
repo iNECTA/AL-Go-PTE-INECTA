@@ -17,7 +17,7 @@ jobs:
       telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Initialize the workflow
         id: init
@@ -30,7 +30,7 @@ jobs:
     needs: [Initialization]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Create cut off branch
         uses: iNECTA/AL-Go-Actions-INECTA/BranchCutOff@main
@@ -46,7 +46,7 @@ jobs:
     needs: [Initialization, BranchCutOff]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Finalize the workflow
         uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v1.5

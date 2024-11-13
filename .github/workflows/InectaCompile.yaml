@@ -23,7 +23,7 @@ jobs:
       githubRunner: ${{ steps.ReadSettings.outputs.GitHubRunnerJson }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Initialize the workflow
         id: init
@@ -55,7 +55,7 @@ jobs:
       BuildOutputArtifactsName: ${{ steps.calculateArtifactNames.outputs.BuildOutputArtifactsName }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Read settings
         uses: iNECTA/AL-Go-Actions-INECTA/ReadSettings@main
@@ -168,7 +168,7 @@ jobs:
     needs: [ Initialization, Build ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Download artifacts
         uses: actions/download-artifact@v2
@@ -186,7 +186,7 @@ jobs:
     needs: [ Initialization, Build, UploadBlobs ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Finalize the workflow
         id: PostProcess

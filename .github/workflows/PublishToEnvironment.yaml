@@ -26,7 +26,7 @@ jobs:
       telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Initialize the workflow
         id: init
@@ -43,7 +43,7 @@ jobs:
       environmentCount: ${{ steps.ReadSettings.outputs.EnvironmentCount }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Read settings
         id: ReadSettings
@@ -66,7 +66,7 @@ jobs:
       name: ${{ matrix.environment }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: EnvName
         id: envName
@@ -144,7 +144,7 @@ jobs:
     needs: [ Initialization, Analyze, Deploy ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Finalize the workflow
         id: PostProcess

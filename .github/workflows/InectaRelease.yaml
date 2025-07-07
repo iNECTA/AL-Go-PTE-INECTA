@@ -25,7 +25,7 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.5
+        uses: iNECTA/AL-Go-Actions/WorkflowInitialize@v1.5
         with:
           eventId: "DO0094"
 
@@ -92,7 +92,7 @@ jobs:
 
       - name: Prepare release notes
         id: createreleasenotes
-        uses: microsoft/AL-Go-Actions/CreateReleaseNotes@v1.5
+        uses: iNECTA/AL-Go-Actions/CreateReleaseNotes@v1.5
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           tag_name: '${{ needs.ReleaseVersion.outputs.relVerTag }}'
@@ -122,7 +122,7 @@ jobs:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
 
       - name: Read secrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@v1.5
+        uses: iNECTA/AL-Go-Actions/ReadSecrets@v1.5
         env:
           secrets: ${{ toJson(secrets) }}
         with:
@@ -239,7 +239,7 @@ jobs:
 
       - name: Finalize the workflow
         id: PostProcess
-        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v1.5
+        uses: iNECTA/AL-Go-Actions/WorkflowPostProcess@v1.5
         with:
           eventId: "DO0094"
           telemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}

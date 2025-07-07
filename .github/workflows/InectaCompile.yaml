@@ -27,7 +27,7 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: microsoft/AL-Go-Actions/WorkflowInitialize@v1.5
+        uses: iNECTA/AL-Go-Actions/WorkflowInitialize@v1.5
         with:
           eventId: "DO0091"
 
@@ -64,7 +64,7 @@ jobs:
           project: ${{ matrix.project }}
 
       - name: Read secrets (PR)
-        uses: microsoft/AL-Go-Actions/ReadSecrets@v1.5
+        uses: iNECTA/AL-Go-Actions/ReadSecrets@v1.5
         if: github.event_name == 'pull_request'
         env:
           secrets: ${{ toJson(secrets) }}
@@ -74,7 +74,7 @@ jobs:
           secrets: 'licenseFileUrl,insiderSasToken,KeyVaultCertificateUrl,KeyVaultCertificatePassword,KeyVaultClientId'
 
       - name: Read secrets
-        uses: microsoft/AL-Go-Actions/ReadSecrets@v1.5
+        uses: iNECTA/AL-Go-Actions/ReadSecrets@v1.5
         if: github.event_name != 'pull_request'
         env:
           secrets: ${{ toJson(secrets) }}
@@ -84,7 +84,7 @@ jobs:
           secrets: 'licenseFileUrl,insiderSasToken,CodeSignCertificateUrl,CodeSignCertificatePassword,KeyVaultCertificateUrl,KeyVaultCertificatePassword,KeyVaultClientId,StorageContext'
 
       - name: Run pipeline
-        uses: microsoft/AL-Go-Actions/RunPipeline@v1.5
+        uses: iNECTA/AL-Go-Actions/RunPipeline@v1.5
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           Project: ${{ matrix.project }}
@@ -158,7 +158,7 @@ jobs:
 
       - name: Cleanup
         if: always()
-        uses: microsoft/AL-Go-Actions/PipelineCleanup@v1.5
+        uses: iNECTA/AL-Go-Actions/PipelineCleanup@v1.5
         with:
           parentTelemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
           Project: ${{ matrix.project }}
@@ -190,7 +190,7 @@ jobs:
 
       - name: Finalize the workflow
         id: PostProcess
-        uses: microsoft/AL-Go-Actions/WorkflowPostProcess@v1.5
+        uses: iNECTA/AL-Go-Actions/WorkflowPostProcess@v1.5
         with:
           eventId: "DO0091"
           telemetryScopeJson: ${{ needs.Initialization.outputs.telemetryScopeJson }}
